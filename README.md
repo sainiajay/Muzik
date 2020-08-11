@@ -1,2 +1,2 @@
-# muzik
+# Muzik
 Spotify Clone
