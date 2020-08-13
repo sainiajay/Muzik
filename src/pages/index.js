@@ -1,12 +1,11 @@
-import React from 'react'
-import Link from 'gatsby-link'
+import React from "react"
+import Login from "./../components/Login"
+import Player from "./../components/Player"
 
-const IndexPage = () => (
-  <div>
-    <h1>Hi people</h1>
-    <p>Welcome to your own spotify clone.</p>
-    <Link to="/page-2/">Go to page 2</Link>
-  </div>
-)
-
-export default IndexPage
+export default function Home({ location }) {
+  const access_token = new URLSearchParams(location.hash.substring(1)).get('access_token')
+  if(!access_token) {
+    return <Login />
+  }
+  return <Player />
+}
