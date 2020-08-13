@@ -2,7 +2,7 @@ import React from "react"
 import style from "./index.module.css"
 import { accessUrl } from "./spotify"
 
-function Login() {
+const Login = () => {
   return (
     <div className={style.login}>
       <img

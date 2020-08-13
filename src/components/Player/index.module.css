@@ -1,0 +1,10 @@
+.Player {
+    display: flex;
+    flex-direction: column;
+}
+  
+.Body {
+    display: flex;
+    flex-grow: 1;
+}
+  
