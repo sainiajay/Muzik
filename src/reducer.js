@@ -1,11 +1,12 @@
 export const initialState = {
   user: null,
-  playlists: [],
+  playlists: null,
   spotify: null,
   discover_weekly: null,
   top_artists: null,
   playing: false,
   item: null,
+  recent_items: null
 };
 
 const reducer = (state, action) => {
@@ -56,6 +57,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         playlists: action.playlists,
+      };
+
+    case "SET_RECENT":
+      return {
+          ...state,
+          recent_items: action.recent_items,
       };
     default:
       return state;
