@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import style from "./index.module.css"
 import { useStateValue } from "./../../context/StateProvider"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faSearch, faMusic } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHome, faSearch, faMusic } from "@fortawesome/free-solid-svg-icons"
 
 const SidebarOption = ({ option = "test", icon }) => {
     return (
@@ -15,8 +15,16 @@ const SidebarOption = ({ option = "test", icon }) => {
 }
 
 function Sidebar() {
-  const [{ playlists }, dispatch] = useStateValue()
-  console.log(playlists)
+  const [{ playlists, spotify}, dispatch] = useStateValue()
+
+  useEffect(() => {
+    spotify.getUserPlaylists().then((playlists) => {
+      dispatch({
+        type: "SET_PLAYLISTS",
+        playlists,
+      })
+    })
+  }, [spotify])
 
   return (
     <div className={style.Sidebar}>
