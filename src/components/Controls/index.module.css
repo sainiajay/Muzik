@@ -1,0 +1,81 @@
+.Controls {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    bottom: 0;
+    padding: 20px;
+    height: 65px;
+    width: 100%;
+    background-color: #282828;
+}
+  
+.Right * .MuiSlider-root {
+    color: green;
+}
+
+.Left {
+    display: flex;
+    align-items: center;
+    color: white;
+    width: 300px;
+    flex: 0.3;
+}
+  
+.Green {
+    color: #1ed15e;
+}
+  
+.Center {
+    flex: 0.4;
+    max-width: 300px;
+    padding: 0 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+  
+.Icon:hover,
+.Green:hover {
+    transition: transform 0.2s ease-in-out;
+    transform: scale(1.2) !important;
+}
+  
+.Right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    flex: 0.3;
+}
+
+.Logo {
+    display: flex;
+}
+
+.AlbumLogo {
+    height: 60px;
+    width: 60px;
+    margin-right: 20px;
+    object-fit: contain;
+}
+
+.SongInfo {
+    color: #fff;
+}
+
+.SongInfo > h4 {
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+  
+.SongInfo > a {
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.SongInfo > a:hover {
+    text-decoration: underline;
+}
