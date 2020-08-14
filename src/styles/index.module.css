@@ -1,0 +1,69 @@
+.ItemGrid {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+}
+
+.ItemContainer {
+    background: #272727;
+    border-radius: 8px;
+    isolation: isolate;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.ItemImageWrapper {    
+    width: 100%;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.ItemImageWrapper > img {
+    height: 100%;
+    width: 100%;
+}
+
+.ItemContent {
+    position: relative;
+}
+
+.DetailContainer {
+    width: 100%;
+}
+
+.ItemName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+    font-weight: 700;
+    width: 100%;
+    display: inline-block;
+}
+
+.PlayButtonContainer {
+    display: flex;
+    align-items: flex-end;
+    flex-flow: column;
+    visibility: hidden;
+}
+
+.PlayButton {
+    margin: -3px;
+    display: flex;
+    width: min-content;
+    background: transparent;
+    color: #1ed15e;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    transition: transform 33ms cubic-bezier(.3,0,0,1),-webkit-transform 33ms cubic-bezier(.3,0,0,1);
+}
+
+.PlayButton:hover {
+    transform: scale(1.06);
+}
+
+.ItemContainer:hover .PlayButtonContainer {
+    visibility: visible;
+}
