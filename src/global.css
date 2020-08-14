@@ -1,4 +1,15 @@
 body {
     margin: 0;
     font-family: sans-serif;
+    background: #121212;
+    color: #b2b2b2;
+}
+
+#gatsby-focus-wrapper {
+    width: 100%;
+    margin: 30px;
+}
+
+a {
+    text-decoration: none;
 }
