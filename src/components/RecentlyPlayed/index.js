@@ -9,7 +9,7 @@ import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons"
 const RecentlyPlayed = () => {
     const [{ recent_items, spotify }, dispatch] = useStateValue() 
     useEffect(() => {
-        if(recent_items) {
+        if(recent_items || !spotify) {
             return
         }
         spotify

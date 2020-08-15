@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import style from "./index.module.css"
 import Sidebar from "./../Sidebar"
 import Controls from "./../Controls"
@@ -6,9 +6,11 @@ import Controls from "./../Controls"
 const Player = ({ children }) => {
     return (
         <div className={style.Player}>
-            <div className={style.Body}>
+            <div className={style.Container}>
                 <Sidebar />
-                {children}
+                <div className={style.Body}>
+                    {children}
+                </div>
             </div>
             <Controls />
         </div>

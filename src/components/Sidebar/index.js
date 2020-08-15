@@ -18,13 +18,16 @@ function Sidebar() {
   const [{ playlists, spotify}, dispatch] = useStateValue()
 
   useEffect(() => {
+    if(!spotify) {
+      return
+    }
     spotify.getUserPlaylists().then((playlists) => {
       dispatch({
         type: "SET_PLAYLISTS",
         playlists,
       })
     })
-  }, [spotify])
+  })
 
   return (
     <div className={style.Sidebar}>

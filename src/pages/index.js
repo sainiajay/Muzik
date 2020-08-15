@@ -1,17 +1,22 @@
 import React, { useEffect } from "react"
 import { useStateValue } from "./../context/StateProvider"
 import RecentlyPlayed from "../components/RecentlyPlayed"
+import Login from "../components/Login"
+import SpotifyWebApi from "spotify-web-api-js"
 
-const initializeAppState = (s, dispatch) => () => {
+const initializeAppState = (s, token, dispatch) => () => {
   if (!s) {
-    return
+    if(!token) {
+      return
+    }
+    s = new SpotifyWebApi()
+    s.setAccessToken(token)
+    dispatch({
+      type: "SET_SPOTIFY",
+      spotify: s
+    })
   }
 
-  dispatch({
-    type: "SET_SPOTIFY",
-    spotify: s
-  })
-  
   s.getPlaylist("37i9dQZEVXcJZyENOWUFo7").then((response) => {
     console.log('weekly', response)
     dispatch({
@@ -40,16 +45,14 @@ const initializeAppState = (s, dispatch) => () => {
 }
 
 const Home = ({ location }) => {
-  const [{ spotify, token }, dispatch] = useStateValue()
-  if(!spotify) {
-    const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
-    const spotify = new SpotifyWebApi()
-    spotify.setAccessToken(token)
-  }
-  useEffect(initializeAppState(spotify, dispatch), [])
+  const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
+  const [{ spotify }, dispatch] = useStateValue()
+  useEffect(initializeAppState(spotify, token, dispatch), [spotify])
   return (
     <div>
-      <RecentlyPlayed />
+      {
+          token? <RecentlyPlayed /> : <Login />
+      }
     </div>
   )
 }
