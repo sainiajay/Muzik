@@ -3,45 +3,59 @@ import { useStateValue } from "./../context/StateProvider"
 import RecentlyPlayed from "../components/RecentlyPlayed"
 import Login from "../components/Login"
 import SpotifyWebApi from "spotify-web-api-js"
+import TopTracks from "../components/TopTracks"
+import TopArtists from "../components/TopArtists"
 
-const initializeAppState = (s, token, dispatch) => () => {
-  if (!s) {
+const initializeAppState = (spotify, token, dispatch) => () => {
+  if (!spotify) {
     if(!token) {
       return
     }
-    s = new SpotifyWebApi()
-    s.setAccessToken(token)
+    const newSpotify = new SpotifyWebApi()
+    newSpotify.setAccessToken(token)
     dispatch({
       type: "SET_SPOTIFY",
-      spotify: s
+      spotify: newSpotify
     })
+    return;
   }
 
-  s.getPlaylist("37i9dQZEVXcJZyENOWUFo7").then((response) => {
-    console.log('weekly', response)
-    dispatch({
-      type: "SET_DISCOVER_WEEKLY",
-      discover_weekly: response,
+  spotify
+    .getMe()
+    .then((user) => {
+      console.log('user', user)
+      dispatch({
+        type: "SET_USER",
+        user,
+      })
     })
-  }
-  )
 
-  s.getMyTopArtists().then((response) => {
-    console.log('top_artists', response)
-    dispatch({
-      type: "SET_TOP_ARTISTS",
-      top_artists: response,
+  spotify
+    .getMyTopTracks()
+    .then((response) => {
+        dispatch({
+            type: "SET_TOP_TRACKS",
+            top_tracks: response.items
+        })
     })
-  }
-  )
 
-  s.getMe().then((user) => {
-    console.log('user', user)
-    dispatch({
-      type: "SET_USER",
-      user,
+  spotify
+    .getMyTopArtists()
+    .then((response) => {
+        dispatch({
+           type: "SET_TOP_ARTISTS",
+           top_artists: response.items
+        })
     })
-  })
+  
+  spotify
+    .getUserPlaylists()
+    .then((playlists) => {
+      dispatch({
+        type: "SET_PLAYLISTS",
+        playlists,
+      })
+    })
 }
 
 const Home = ({ location }) => {
@@ -50,7 +64,13 @@ const Home = ({ location }) => {
   useEffect(initializeAppState(spotify, token, dispatch), [spotify])
   
   if(token) {
-    return <RecentlyPlayed />
+    return (
+      <React.Fragment>
+        <RecentlyPlayed />
+        <TopTracks />
+        <TopArtists />
+      </React.Fragment>
+    )
   }
   return <Login />
 }

@@ -20,7 +20,7 @@ const Controls = () => {
     if(!spotify) {
         return
     }
-    spotify.getMyCurrentPlaybackState({}).then((r) => {
+    spotify.getMyCurrentPlaybackState({ }).then((r) => {
         console.log('current playback', r)
         if(!r) {
             return

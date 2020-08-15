@@ -6,35 +6,22 @@ import { useStateValue } from "../../context/StateProvider"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons"
 
-const RecentlyPlayed = () => {
-    const [{ recent_items, spotify }, dispatch] = useStateValue() 
-    useEffect(() => {
-        if(recent_items || !spotify) {
-            return
-        }
-        spotify
-            .getMyRecentlyPlayedTracks()
-            .then((response) => {
-                dispatch({
-                   type: "SET_RECENT",
-                   recent_items: response.items
-                })
-            })
-    }, [recent_items, spotify])
-    console.log('recent_items', recent_items)
+const TopArtists = () => {
+    const [{ top_artists }] = useStateValue() 
+    console.log('top_artist', top_artists)
     return (
         <div>
-            <h2>Recently Played</h2>
+            <h2>Top Artists</h2>
             <div className={globalStyles.ItemGrid}>
                 {
-                    recent_items?.slice(0, 5).map(({ track }) => (
-                        <div key={track.id} className={globalStyles.ItemContainer}>
+                    top_artists?.slice(0, 5).map((artist) => (
+                        <div key={artist.id} className={globalStyles.ItemContainer}>
                             <div className={globalStyles.ItemImageWrapper}>
-                                <img src={track.album.images[1].url}/>
+                                <img src={artist.images[2].url}/>
                             </div>
                             <div className={globalStyles.ItemContent}>
                                 <div className={globalStyles.DetailContainer}>
-                                    <a href={track.external_urls.spotify} className={globalStyles.ItemName}>{track.name}</a>
+                                    <a href={artist.external_urls.spotify} className={globalStyles.ItemName}>{artist.name}</a>
                                 </div>
                                 <div className={globalStyles.PlayButtonContainer}>
                                     <button className={globalStyles.PlayButton}>
@@ -50,4 +37,4 @@ const RecentlyPlayed = () => {
     )
 }
 
-export default RecentlyPlayed
+export default TopArtists

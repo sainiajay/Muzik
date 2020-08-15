@@ -16,6 +16,8 @@
     width: 100%;
     position: relative;
     margin-bottom: 16px;
+    min-height: 140px;
+    background: #272727;
 }
 
 .ItemImageWrapper > img {
@@ -43,13 +45,12 @@
 
 .PlayButtonContainer {
     display: flex;
-    align-items: flex-end;
-    flex-flow: column;
-    visibility: hidden;
+    flex-flow: row-reverse;
+    justify-content: space-between;
 }
 
 .PlayButton {
-    margin: -3px;
+    margin-right: -10px;
     display: flex;
     width: min-content;
     background: transparent;
@@ -57,6 +58,7 @@
     box-shadow: none;
     outline: none;
     border: none;
+    visibility: hidden;
     transition: transform 33ms cubic-bezier(.3,0,0,1),-webkit-transform 33ms cubic-bezier(.3,0,0,1);
 }
 
@@ -64,6 +66,6 @@
     transform: scale(1.06);
 }
 
-.ItemContainer:hover .PlayButtonContainer {
+.ItemContainer:hover .PlayButton {
     visibility: visible;
 }

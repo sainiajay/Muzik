@@ -5,12 +5,22 @@ body {
     color: #b2b2b2;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 #gatsby-focus-wrapper {
     width: 100%;
     margin: 30px;
+    margin-bottom: 130px;
+    margin-left: 260px;
     position: relative;
 }
 
 a {
     text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #fff;
 }
