@@ -187,7 +187,7 @@
       i = n(6),
       a = function (e, t) {
         var n,
-          a = "",
+          a = "https://sdk.scdn.co/embedded/index.html",
           u = s.defer(),
           c = new r(),
           _ =
