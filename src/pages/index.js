@@ -56,6 +56,15 @@ const initializeAppState = (spotify, token, dispatch) => () => {
         playlists,
       })
     })
+
+  spotify
+    .getMyRecentlyPlayedTracks()
+    .then((response) => {
+        dispatch({
+           type: "SET_RECENT",
+           recent_items: response.items
+        })
+    })
 }
 
 const Home = ({ location }) => {
@@ -63,16 +72,14 @@ const Home = ({ location }) => {
   const [{ spotify }, dispatch] = useStateValue()
   useEffect(initializeAppState(spotify, token, dispatch), [spotify])
   
-  if(token) {
-    return (
-      <React.Fragment>
-        <RecentlyPlayed />
-        <TopTracks />
-        <TopArtists />
-      </React.Fragment>
-    )
-  }
-  return <Login />
+  return (
+    <React.Fragment>
+      <RecentlyPlayed />
+      <TopTracks />
+      <TopArtists />
+      <Login />
+    </React.Fragment>
+  )
 }
 
 export default Home

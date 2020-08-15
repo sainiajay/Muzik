@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 // import style from "./index.module.css"
 import globalStyles from "../../styles/index.module.css";
 
@@ -7,20 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons"
 
 const RecentlyPlayed = () => {
-    const [{ recent_items, spotify }, dispatch] = useStateValue() 
-    useEffect(() => {
-        if(recent_items || !spotify) {
-            return
-        }
-        spotify
-            .getMyRecentlyPlayedTracks()
-            .then((response) => {
-                dispatch({
-                   type: "SET_RECENT",
-                   recent_items: response.items
-                })
-            })
-    }, [recent_items, spotify])
+    const [{ recent_items }] = useStateValue() 
     console.log('recent_items', recent_items)
     return (
         <div>
