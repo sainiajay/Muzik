@@ -7,6 +7,11 @@ const initializeAppState = (s, dispatch) => () => {
     return
   }
 
+  dispatch({
+    type: "SET_SPOTIFY",
+    spotify: s
+  })
+  
   s.getPlaylist("37i9dQZEVXcJZyENOWUFo7").then((response) => {
     console.log('weekly', response)
     dispatch({
@@ -34,8 +39,13 @@ const initializeAppState = (s, dispatch) => () => {
   })
 }
 
-const Home = () => {
+const Home = ({ location }) => {
   const [{ spotify, token }, dispatch] = useStateValue()
+  if(!spotify) {
+    const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
+    const spotify = new SpotifyWebApi()
+    spotify.setAccessToken(token)
+  }
   useEffect(initializeAppState(spotify, dispatch), [])
   return (
     <div>
