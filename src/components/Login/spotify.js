@@ -6,8 +6,11 @@ const getAccessUrl = () => {
         'user-read-currently-playing',
         'user-read-recently-played',
         'user-read-playback-state',
-        'user-top-read',
         'user-modify-playback-state',
+        'user-top-read',
+        'user-read-email', 
+        'user-read-private',
+        'streaming'
     ]
     const url = new URL(authEndpoint)
     url.searchParams.set('client_id', clientId)
