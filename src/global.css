@@ -8,6 +8,7 @@ body {
 #gatsby-focus-wrapper {
     width: 100%;
     margin: 30px;
+    position: relative;
 }
 
 a {
