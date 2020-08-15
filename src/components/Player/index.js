@@ -8,9 +8,7 @@ const Player = ({ children }) => {
         <div className={style.Player}>
             <div className={style.Container}>
                 <Sidebar />
-                <div className={style.Body}>
-                    {children}
-                </div>
+                {children}
             </div>
             <Controls />
         </div>

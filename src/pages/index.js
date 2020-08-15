@@ -48,13 +48,11 @@ const Home = ({ location }) => {
   const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
   const [{ spotify }, dispatch] = useStateValue()
   useEffect(initializeAppState(spotify, token, dispatch), [spotify])
-  return (
-    <div>
-      {
-          token? <RecentlyPlayed /> : <Login />
-      }
-    </div>
-  )
+  
+  if(token) {
+    return <RecentlyPlayed />
+  }
+  return <Login />
 }
 
 export default Home
