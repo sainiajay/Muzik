@@ -1,0 +1,18 @@
+.LogoWrapper {
+    display: flex;
+    gap: 5px;
+    color: #fff;
+}
+
+.Icon {
+    display: flex;
+    justify-content: flex-end;
+    display: flex;
+}
+
+.Name {
+    font-family: 'Ultra';
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+}
