@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import style from "./index.module.css"
+import style from "./Controls.module.css"
 import { useStateValue } from "./../../context/StateProvider"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

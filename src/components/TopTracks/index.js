@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
-import style from "./index.module.css"
-import globalStyles from "../../styles/index.module.css";
+import React from "react"
+import style from "./TopTracks.module.css"
+import globalStyles from "../../styles/index.module.css"
 
 import { useStateValue } from "../../context/StateProvider"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -17,7 +17,7 @@ const TopTracks = () => {
                     top_tracks?.slice(0, 5).map((track) => (
                         <div key={track.id} className={globalStyles.ItemContainer}>
                             <div className={globalStyles.ItemImageWrapper}>
-                                <img src={track.album.images[1].url}/>
+                                <img src={track.album.images[1].url} alt={track.name}/>
                             </div>
                             <div className={globalStyles.ItemContent}>
                                 <div className={globalStyles.DetailContainer}>

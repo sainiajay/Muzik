@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 // import style from "./index.module.css"
 import globalStyles from "../../styles/index.module.css";
 
@@ -17,7 +17,7 @@ const TopArtists = () => {
                     top_artists?.slice(0, 5).map((artist) => (
                         <div key={artist.id} className={globalStyles.ItemContainer}>
                             <div className={globalStyles.ItemImageWrapper}>
-                                <img src={artist.images[2].url}/>
+                                <img src={artist.images[2].url} alt={artist.name}/>
                             </div>
                             <div className={globalStyles.ItemContent}>
                                 <div className={globalStyles.DetailContainer}>
