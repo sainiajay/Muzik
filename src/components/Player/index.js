@@ -2,12 +2,21 @@ import React, { useEffect } from "react"
 import style from "./index.module.css"
 import Sidebar from "./../Sidebar"
 import Controls from "./../Controls"
+import { useStateValue } from "../../context/StateProvider"
 
 const Player = ({ children }) => {
-    const handlePlayerError = ({ message }) => console.error(message)
+    const [{ spotify }] = useStateValue()
+    const handlePlayerError = ( message ) => console.error(message)
+    const handlePlayerReady = (player) => (response) => {
+        console.log('ready:', response)
+        player.getCurrentState().then(state => console.log('State:', state))
+    }
 
     const initPlayer = () => {
-        const token = new URLSearchParams(window.location.hash?.substring(1)).get('access_token')
+        if(!spotify) {
+            return
+        }
+        const token = spotify.getAccessToken();
         const player = new window.Spotify.Player({
             name: 'Muzik Player',
             getOAuthToken: cb => { cb(token); }
@@ -21,11 +30,9 @@ const Player = ({ children }) => {
     
         // Playback status updates
         player.addListener('player_state_changed', state => { console.log(state); });
-    
+
         // Ready
-        player.addListener('ready', ({ device_id }) => {
-            console.log('Ready with Device ID', device_id);
-        });
+        player.addListener('ready', handlePlayerReady(player));
     
         // Not Ready
         player.addListener('not_ready', ({ device_id }) => {
@@ -34,10 +41,8 @@ const Player = ({ children }) => {
     
         // Connect to the player!
         player.connect();
-    
-        console.log('Watta Player!');
     }
-    
+
     useEffect(() => {
         if(window.Spotify) {
             initPlayer()
@@ -45,7 +50,7 @@ const Player = ({ children }) => {
         else {
             window.addEventListener('spotifyReady', initPlayer);
         }
-    })
+    }, [spotify])
 
     return (
         <div className={style.Player}>
