@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import style from "./Controls.module.css"
 import { useStateValue } from "./../../context/StateProvider"
+import { withStyles } from '@material-ui/core/styles'
+import Slider from "@material-ui/core/Slider"
+import PlayCircle from "@material-ui/icons/PlayCircleFilled"
+import PauseCircle from "@material-ui/icons/PauseCircleFilled"  
+import SkipNext from "@material-ui/icons/SkipNext"
+import SkipPrevious from "@material-ui/icons/SkipPrevious"
+import VolumeDown from "@material-ui/icons/VolumeDown"
+import Shuffle from "@material-ui/icons/Shuffle"
+import Repeat from "@material-ui/icons/Repeat"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { 
-    faPlayCircle,
-    faPauseCircle,
-    faStepForward,
-    faStepBackward,
-    faVolumeDown,
-    faRandom,
-    faRedo
-} from "@fortawesome/free-solid-svg-icons"
+const WhiteSlider = withStyles({
+  root: {
+    color: '#fff'
+  },
+  thumb: {
+    '&:focus, &:hover, &$active': {
+      boxShadow: 'inherit'
+    }
+  },
+})(Slider)
 
 const Controls = () => {
   const [{ item, playing, spotify }, dispatch] = useStateValue()
@@ -104,19 +113,25 @@ const Controls = () => {
         )}
       </div>
 
-      <div className={style.Center}>
-        <FontAwesomeIcon icon={faRandom} className={style.Green} />
-        <FontAwesomeIcon icon={faStepBackward} className={style.Icon} onClick={skipNext}/>
+      <div className={style.MainControl}>
+        <Shuffle style={{ color: '#fff' }} />
+        <SkipPrevious style={{ color: '#fff' }} />
         {playing ? (
-          <FontAwesomeIcon icon={faPauseCircle} className={style.Icon} onClick={handlePlayPause} size="3x"/>
+          <PlayCircle fontSize="large" style={{ color: '#fff' }} />
         ) : (
-          <FontAwesomeIcon icon={faPlayCircle} className={style.Icon} onClick={handlePlayPause} size="3x"/>
+          <PauseCircle fontSize="large" style={{ color: '#fff' }} />
         )}
-        <FontAwesomeIcon icon={faStepForward} className={style.Icon} onClick={skipPrevious}/>
-        <FontAwesomeIcon icon={faRedo} className={style.Green} />
+        <SkipNext style={{ color: '#fff' }} />
+        <Repeat style={{ color: '#fff' }} />
+        <div className={style.TrackSlider}>
+          <WhiteSlider aria-labelledby="continuous-slider"/>
+        </div>
       </div>
       <div className={style.Right}>
-        <FontAwesomeIcon icon={faVolumeDown} className={style.Icon} onClick={skipPrevious}/>
+        <div className={style.VolumeControl}>
+          <VolumeDown />
+          <WhiteSlider aria-labelledby="continuous-slider"/>
+        </div>
       </div>
     </div>
   )

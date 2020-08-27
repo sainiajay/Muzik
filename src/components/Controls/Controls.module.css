@@ -8,10 +8,6 @@
     width: 100%;
     background-color: #282828;
 }
-  
-.Right * .MuiSlider-root {
-    color: green;
-}
 
 .Left {
     display: flex;
@@ -25,22 +21,35 @@
     color: #1ed15e;
 }
   
-.Center {
-    flex: 0.4;
-    max-width: 300px;
-    padding: 0 100px;
+.MainControl {
     color: white;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(80px, 2fr));
     align-items: center;
-    justify-content: space-between;
+    justify-items: center;
 }
-  
+
+.TrackSlider {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
 .Icon:hover,
 .Green:hover {
     transition: transform 0.2s ease-in-out;
     transform: scale(1.2) !important;
 }
   
+.VolumeControl {
+    display: flex;
+    width: 150px;
+    align-items: center;
+}
+
+.VolumeControl > * {
+    margin: 5px;
+}
+
 .Right {
     display: flex;
     justify-content: space-between;

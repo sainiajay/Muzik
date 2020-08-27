@@ -3,8 +3,7 @@ import React from "react"
 import globalStyles from "../../styles/index.module.css";
 
 import { useStateValue } from "../../context/StateProvider"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlayCircle } from "@fortawesome/free-solid-svg-icons"
+import PlayArrow from "@material-ui/icons/PlayArrow"
 
 const RecentlyPlayed = () => {
     const [{ recent_items }] = useStateValue() 
@@ -25,7 +24,7 @@ const RecentlyPlayed = () => {
                                 </div>
                                 <div className={globalStyles.PlayButtonContainer}>
                                     <button className={globalStyles.PlayButton}>
-                                        <FontAwesomeIcon icon={faPlayCircle} size="3x"/>
+                                        <PlayArrow style={{ color: '#fff' }} />
                                     </button>
                                 </div>
                             </div>

@@ -1,10 +1,9 @@
 import React from "react"
 import style from "./TopTracks.module.css"
 import globalStyles from "../../styles/index.module.css"
+import PlayArrow from "@material-ui/icons/PlayArrow"
 
 import { useStateValue } from "../../context/StateProvider"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlayCircle } from "@fortawesome/free-solid-svg-icons"
 
 const TopTracks = () => {
     const [{ top_tracks }] = useStateValue()
@@ -25,7 +24,7 @@ const TopTracks = () => {
                                 </div>
                                 <div className={globalStyles.PlayButtonContainer}>
                                     <button className={globalStyles.PlayButton}>
-                                        <FontAwesomeIcon icon={faPlayCircle} size="3x"/>
+                                        <PlayArrow style={{ color: '#fff' }} />
                                     </button>
                                     <label className={style.ArtistName}>{track.artists[0].name}</label>
                                 </div>
