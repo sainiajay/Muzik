@@ -19,7 +19,7 @@ const Login = () => {
             src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg"
             alt="Muzik Logo"
           /> */}
-          <Logo />
+          <Logo size="20px"/>
           <a href={accessUrl}>LOGIN USING SPOTIFY</a>
         </div>
       </div>

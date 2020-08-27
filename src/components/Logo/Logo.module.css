@@ -2,17 +2,19 @@
     display: flex;
     gap: 5px;
     color: #fff;
+    font-size: 10px;
 }
 
 .Icon {
     display: flex;
     justify-content: flex-end;
-    display: flex;
+    align-items: center;
 }
 
 .Name {
     font-family: 'Ultra';
     display: flex;
     align-items: center;
-    font-size: 3rem;
+    font-size: 3em;
+    padding: 0.25em;
 }

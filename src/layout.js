@@ -8,6 +8,8 @@ const Layout = (props) => {
   return (
     <StateProvider initialState={initialState} reducer={reducer}>
       <Helmet>
+        <title>Muzik</title>
+        <link href="https://i.scdn.co" rel="preconnect" />
         <link href="https://fonts.googleapis.com/css2?family=Ultra&display=swap" rel="stylesheet" />
         <script src="init-player.js"></script>
       </Helmet>

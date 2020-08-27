@@ -7,12 +7,28 @@ import TopTracks from "../components/TopTracks"
 import TopArtists from "../components/TopArtists"
 
 const initializeAppState = (spotify, token, dispatch) => () => {
+  const handleApiError = (response) => {
+    if(response.status === 401) {
+      localStorage.removeItem('$token')
+      dispatch({
+        type: "SET_SPOTIFY",
+        spotify: null
+      })
+    }
+  }
+
+  if(token) {
+    localStorage.setItem('$token', token)
+    window.history.replaceState({}, document.title, document.location.pathname)
+  }
+  const storedToken = localStorage.getItem('$token')
+
   if (!spotify) {
-    if(!token) {
+    if(!storedToken) {
       return
     }
     const newSpotify = new SpotifyWebApi()
-    newSpotify.setAccessToken(token)
+    newSpotify.setAccessToken(storedToken)
     dispatch({
       type: "SET_SPOTIFY",
       spotify: newSpotify
@@ -22,8 +38,8 @@ const initializeAppState = (spotify, token, dispatch) => () => {
 
   spotify
     .getMe()
+    .catch(handleApiError)
     .then((user) => {
-      console.log('user', user)
       dispatch({
         type: "SET_USER",
         user,
@@ -32,6 +48,7 @@ const initializeAppState = (spotify, token, dispatch) => () => {
 
   spotify
     .getMyTopTracks()
+    .catch(handleApiError)
     .then((response) => {
         dispatch({
             type: "SET_TOP_TRACKS",
@@ -41,6 +58,7 @@ const initializeAppState = (spotify, token, dispatch) => () => {
 
   spotify
     .getMyTopArtists()
+    .catch(handleApiError)
     .then((response) => {
         dispatch({
            type: "SET_TOP_ARTISTS",
@@ -50,15 +68,17 @@ const initializeAppState = (spotify, token, dispatch) => () => {
   
   spotify
     .getUserPlaylists()
+    .catch(handleApiError)
     .then((playlists) => {
-      dispatch({
-        type: "SET_PLAYLISTS",
-        playlists,
-      })
+        dispatch({
+          type: "SET_PLAYLISTS",
+          playlists,
+        })
     })
 
   spotify
     .getMyRecentlyPlayedTracks()
+    .catch(handleApiError)
     .then((response) => {
         dispatch({
            type: "SET_RECENT",

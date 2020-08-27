@@ -1,15 +1,15 @@
 import React from "react"
 import style from "./Logo.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPlayCircle } from "@fortawesome/free-solid-svg-icons"
+import { faMusic } from "@fortawesome/free-solid-svg-icons"
 
 const Logo = ({ size }) => (
-    <div className={style.LogoWrapper}>
+    <div className={style.LogoWrapper} style={{fontSize: size}}>
         <div className={style.Icon}>
-            <FontAwesomeIcon icon={faPlayCircle} size={size || "4x"} />
+            <FontAwesomeIcon icon={faMusic} size="3x" />
         </div>
         <div className={style.Name}>
-            Muzik
+            MUZIK
         </div>
     </div>
 )
