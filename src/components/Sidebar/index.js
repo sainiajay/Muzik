@@ -1,6 +1,7 @@
 import React from "react"
 import style from "./index.module.css"
 import { useStateValue } from "./../../context/StateProvider"
+import Logo from "./../Logo";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHome, faSearch, faMusic } from "@fortawesome/free-solid-svg-icons"
@@ -20,11 +21,7 @@ function Sidebar() {
   return (
     <div className={style.SidebarContainer}>
       <div className={style.Sidebar}>
-        <img
-          className={style.Logo}
-          src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg"
-          alt=""
-        />
+        <Logo />
         <SidebarOption option="Home" icon={faHome}/>
         <SidebarOption option="Search" icon={faSearch}/>
         <SidebarOption option="Your Library" icon={faMusic}/>
