@@ -6,8 +6,14 @@ import { useStateValue } from "../../context/StateProvider"
 import PlayArrow from "@material-ui/icons/PlayArrow"
 
 const TopArtists = () => {
-    const [{ top_artists }] = useStateValue() 
-    console.log('top_artist', top_artists)
+    const [{ top_artists, spotify, player }] = useStateValue()
+    const handlePlayTrack = (event) => {
+        spotify.play({
+            device_id: player._options.id,
+            context_uri: event.currentTarget.dataset.artistUri
+        })
+    }
+    
     return (
         <div>
             <h2>Top Artists</h2>
@@ -23,7 +29,7 @@ const TopArtists = () => {
                                     <a href={artist.external_urls.spotify} className={globalStyles.ItemName}>{artist.name}</a>
                                 </div>
                                 <div className={globalStyles.PlayButtonContainer}>
-                                    <button className={globalStyles.PlayButton}>
+                                    <button className={globalStyles.PlayButton} data-artist-uri={artist.uri} onClick={handlePlayTrack}>
                                         <PlayArrow style={{ color: '#fff' }} />
                                     </button>
                                 </div>
