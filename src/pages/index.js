@@ -46,7 +46,7 @@ const initializePageState = (spotify, token, dispatch) => {
     token: storedToken
   })
 
-  if (!spotify) {
+  if (!spotify?.getAccessToken()) {
     return;
   }
 
@@ -104,12 +104,12 @@ const initializePageState = (spotify, token, dispatch) => {
 }
 
 const Home = ({ location }) => {
-  const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
-  const [{ spotify }, dispatch] = useStateValue()
+  const tokenFromUrl = new URLSearchParams(location.hash?.substring(1)).get('access_token')
+  const [{ spotify, token }, dispatch] = useStateValue()
   useEffect(() => {
-    initPlayer(token, dispatch);
-    initializePageState(spotify, token, dispatch);
-  }, [spotify])
+    initPlayer(tokenFromUrl, dispatch);
+    initializePageState(spotify, tokenFromUrl, dispatch);
+  }, [token])
   
   return (
     <React.Fragment>
