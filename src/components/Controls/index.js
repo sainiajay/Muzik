@@ -77,6 +77,8 @@ const Controls = () => {
 
   const skipPrevious = () => player?.previousTrack()
 
+  const handleSliderChange = (_, newValue) => setState({...state, position: newValue})
+
   return (
     <div className={style.Controls}>
       <div className={style.Logo}>
@@ -119,10 +121,10 @@ const Controls = () => {
         <Repeat style={{ color: '#fff' }} />
         <div className={style.TrackSlider}>
           <WhiteSlider
-            ref={sliderRef}
+            value={state.position || 0}
+            max={state.duration || 100}
             aria-labelledby="continuous-slider"
-            min={0} defaultValue={0} value={state.position || 0}
-            max={state.duration}
+            onChange={handleSliderChange}
           />
         </div>
       </div>
