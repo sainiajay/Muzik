@@ -28,7 +28,7 @@ const initializePageState = (spotify, token, dispatch) => {
       localStorage.removeItem('$token')
       dispatch({
         type: "SET_SPOTIFY",
-        spotify: null
+        token: null
       })
     }
   }

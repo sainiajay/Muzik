@@ -19,9 +19,11 @@ const reducer = (state, action) => {
   console.log('reducing...', action);
   switch (action.type) {
     case "SET_TOKEN":
-      state.spotify.setAccessToken(action.token)
-      if(state.token_callback) {
-        state.token_callback(action.token)
+      if(action.token) {  
+        state.spotify.setAccessToken(action.token)
+        if(state.token_callback) {
+          state.token_callback(action.token)
+        }
       }
       return {
         ...state,
