@@ -8,8 +8,12 @@ import PauseCircle from "@material-ui/icons/PauseCircleFilled"
 import SkipNext from "@material-ui/icons/SkipNext"
 import SkipPrevious from "@material-ui/icons/SkipPrevious"
 import VolumeDown from "@material-ui/icons/VolumeDown"
+import VolumeUp from "@material-ui/icons/VolumeUp"
 import Shuffle from "@material-ui/icons/Shuffle"
 import Repeat from "@material-ui/icons/Repeat"
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder"
+import PlaylistPlay from "@material-ui/icons/PlaylistPlay"
+import Devices from "@material-ui/icons/DevicesSharp"
 
 const WhiteSlider = withStyles({
   root: {
@@ -28,7 +32,6 @@ const Controls = () => {
   const handlePlayerError = (message) => console.error(message)
   const handlePlayerReady = (response) => {
       console.log('ready:', response)
-      player.getCurrentState().then(state => console.log('State:', state))
   }
   const initPlayer = () => {
       
@@ -85,9 +88,22 @@ const Controls = () => {
         <div className={style.SongInfo}>
           <h4>{state.track_window?.current_track?.name || 'No Track Playing'}</h4>
           {
-            state.track_window?.current_track?.artists
-            .map((artist) => <a key={artist.uri} href="123">{artist.name}</a>)
+            state.track_window?.current_track?.artists.slice(0, 3)
+            .map((artist) => <a key={artist.uri} href="#" className={style.ArtistName}>{artist.name}</a>)
           }
+          {
+            state.track_window?.current_track?.artists.length > 3
+            &&
+            (<a href="#" className={style.ArtistName}>and {state.track_window?.current_track?.artists.length - 3} more</a>)
+          }
+          {
+            !state.track_window?.current_track?.artists.length
+            &&
+            (<a href="#" className={style.ArtistName}>...</a>)
+          }
+        </div>
+        <div className={style.FavouriteIconWrapper}>
+          <FavoriteBorder fontSize="small"/>
         </div>
       </div>
 
@@ -111,8 +127,10 @@ const Controls = () => {
         </div>
       </div>
       <div className={style.Right}>
+        <PlaylistPlay />
+        <Devices fontSize="small"/>
         <div className={style.VolumeControl}>
-          <VolumeDown />
+          <VolumeDown fontSize="small"/>
           <WhiteSlider aria-labelledby="continuous-slider"/>
         </div>
       </div>
