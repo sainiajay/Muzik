@@ -1,7 +1,12 @@
+import SpotifyWebApi from "spotify-web-api-js"
+
 export const initialState = {
+  token: null,
+  spotify: new SpotifyWebApi(),
+  player: null,
+  token_callback: null,
   user: null,
   playlists: null,
-  spotify: null,
   playing: false,
   item: null,
   recent_items: null,
@@ -11,13 +16,45 @@ export const initialState = {
 };
 
 const reducer = (state, action) => {
+  console.log('reducing...', action);
   switch (action.type) {
+    case "SET_TOKEN":
+      state.spotify.setAccessToken(action.token)
+      if(state.token_callback) {
+        state.token_callback(action.token)
+      }
+      return {
+        ...state,
+        token: action.token
+      };
+
+    case "SET_TOKEN_CALLBACK":
+      if(state.token) {
+        action.token_callback(state.token)
+      }
+      return {
+        ...state,
+        token_callback: action.token_callback
+      };
+
+    case "SET_PLAYER":
+      return {
+        ...state,
+        player: action.player
+      };
+
+    case "SET_SPOTIFY":
+      return {
+        ...state,
+        spotify: action.spotify,
+      };
+
     case "SET_USER":
       return {
         ...state,
         user: action.user,
       };
-
+    
     case "SET_PLAYING":
       return {
         ...state,
@@ -47,18 +84,6 @@ const reducer = (state, action) => {
           ...state,
           top_tracks: action.top_tracks,
         };
-
-    case "SET_TOKEN":
-      return {
-        ...state,
-        token: action.token,
-      };
-
-    case "SET_SPOTIFY":
-      return {
-        ...state,
-        spotify: action.spotify,
-      };
 
     case "SET_PLAYLISTS":
       return {

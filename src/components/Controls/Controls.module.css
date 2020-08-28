@@ -1,20 +1,18 @@
 .Controls {
     position: fixed;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
     bottom: 0;
     padding: 20px;
     height: 100px;
     width: 100%;
     background-color: #282828;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 2fr));
 }
 
 .Left {
     display: flex;
     align-items: center;
     color: white;
-    width: 300px;
-    flex: 0.3;
 }
   
 .Green {
@@ -52,10 +50,9 @@
 
 .Right {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     color: white;
-    flex: 0.3;
 }
 
 .Logo {

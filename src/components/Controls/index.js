@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import style from "./Controls.module.css"
 import { useStateValue } from "./../../context/StateProvider"
 import { withStyles } from '@material-ui/core/styles'
@@ -23,108 +23,91 @@ const WhiteSlider = withStyles({
 })(Slider)
 
 const Controls = () => {
-  const [{ item, playing, spotify }, dispatch] = useStateValue()
+  const [{ player, item }, dispatch] = useStateValue()
+  const [state, setState] = useState({})
+  const handlePlayerError = (message) => console.error(message)
+  const handlePlayerReady = (response) => {
+      console.log('ready:', response)
+      player.getCurrentState().then(state => console.log('State:', state))
+  }
+  const initPlayer = () => {
+      
+      if(!player) {
+          return
+      }
 
-  useEffect(() => {
-    if(!spotify) {
-        return
-    }
-    spotify.getMyCurrentPlaybackState({ }).then((r) => {
-        console.log('current playback', r)
-        if(!r) {
-            return
-        }
-        dispatch({
-          type: "SET_PLAYING",
-          playing: r.is_playing,
-        })
+      // Error handling
+      player.addListener('initialization_error', handlePlayerError);
+      player.addListener('authentication_error', handlePlayerError);
+      player.addListener('account_error', handlePlayerError);
+      player.addListener('playback_error', handlePlayerError);
   
-        dispatch({
-          type: "SET_ITEM",
-          item: r.item,
-        })
-    })
-  }, [spotify])
+      // Playback status updates
+      player.addListener('player_state_changed', state => { 
+        console.log(state);
+        setState(state);
+      });
 
-  const handlePlayPause = () => {
-    if (playing) {
-      spotify.pause()
-      dispatch({
-        type: "SET_PLAYING",
-        playing: false,
-      })
-    } else {
-      spotify.play()
-      dispatch({
-        type: "SET_PLAYING",
-        playing: true,
-      })
-    }
+      // Ready
+      player.addListener('ready', handlePlayerReady);
+  
+      // Not Ready
+      player.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline', device_id);
+      });
+  
+      // Connect to the player!
+      player.connect();
   }
 
-  const skipNext = () => {
-    spotify.skipToNext()
-    spotify.getMyCurrentPlayingTrack().then((r) => {
-      dispatch({
-        type: "SET_ITEM",
-        item: r.item,
-      })
-      dispatch({
-        type: "SET_PLAYING",
-        playing: true,
-      })
-    })
-  }
+  useEffect(initPlayer, [player])
 
-  const skipPrevious = () => {
-    spotify.skipToPrevious()
-    spotify.getMyCurrentPlayingTrack().then((r) => {
-      dispatch({
-        type: "SET_ITEM",
-        item: r.item,
-      })
-      dispatch({
-        type: "SET_PLAYING",
-        playing: true,
-      })
-    })
-  }
+  const INTERVAL = 500
+  const sliderRef = useRef(null)
+
+  const handlePlayPause = () => player?.togglePlay()
+    .then(() => {
+      console.log('Toggled playback!');
+    });
+
+  const skipNext = () => player?.nextTrack()
+
+  const skipPrevious = () => player?.previousTrack()
 
   return (
     <div className={style.Controls}>
       <div className={style.Logo}>
         <img
           className={style.AlbumLogo}
-          src={item?.album.images[0].url}
-          alt={item?.name}
+          src={state.track_window?.current_track?.album.images[0].url}
+          alt={state.track_window?.current_track?.name}
         />
-        {item ? (
-          <div className={style.SongInfo}>
-            <h4>{item.name}</h4>
-            {
-              item.artists.map((artist) => <a key={artist.id} href="123">{artist.name}</a>)
-            }
-          </div>
-        ) : (
-          <div className={style.SongInfo}>
-            <h4>No song is playing</h4>
-            <p>...</p>
-          </div>
-        )}
+        <div className={style.SongInfo}>
+          <h4>{state.track_window?.current_track?.name || 'No Track Playing'}</h4>
+          {
+            state.track_window?.current_track?.artists
+            .map((artist) => <a key={artist.uri} href="123">{artist.name}</a>)
+          }
+        </div>
       </div>
 
       <div className={style.MainControl}>
         <Shuffle style={{ color: '#fff' }} />
-        <SkipPrevious style={{ color: '#fff' }} />
-        {playing ? (
-          <PlayCircle fontSize="large" style={{ color: '#fff' }} />
+        <SkipPrevious style={{ color: '#fff' }} onClick={skipPrevious} />
+        {state.paused ? (
+          <PlayCircle fontSize="large" style={{ color: '#fff' }} onClick={handlePlayPause} />
         ) : (
-          <PauseCircle fontSize="large" style={{ color: '#fff' }} />
+          <PauseCircle fontSize="large" style={{ color: '#fff' }} onClick={handlePlayPause} />
         )}
-        <SkipNext style={{ color: '#fff' }} />
+        <SkipNext style={{ color: '#fff' }} onClick={skipNext}/>
         <Repeat style={{ color: '#fff' }} />
         <div className={style.TrackSlider}>
-          <WhiteSlider aria-labelledby="continuous-slider"/>
+          <WhiteSlider
+            ref={sliderRef}
+            aria-labelledby="continuous-slider"
+            min={0} defaultValue={0} value={state.position || 0}
+            max={state.duration}
+          />
         </div>
       </div>
       <div className={style.Right}>

@@ -6,8 +6,8 @@ import { accessUrl } from "./spotify"
 import { useStateValue } from "./../../context/StateProvider"
 
 const Login = () => {
-  const [{ spotify }] = useStateValue()
-  if(spotify) {
+  const [{ token }] = useStateValue()
+  if(token) {
     return ""
   }
 

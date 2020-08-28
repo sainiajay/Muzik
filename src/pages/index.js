@@ -6,7 +6,23 @@ import SpotifyWebApi from "spotify-web-api-js"
 import TopTracks from "../components/TopTracks"
 import TopArtists from "../components/TopArtists"
 
-const initializeAppState = (spotify, token, dispatch) => () => {
+const initPlayer = (token, dispatch) => {
+  if(!window.Spotify || !window.Spotify.Player) {
+    window.addEventListener('spotifyReady', initPlayer.bind(null, token, dispatch));
+    return;
+  }
+  const getOAuthToken = token_callback => 
+    dispatch({
+      type: "SET_TOKEN_CALLBACK",
+      token_callback
+    })
+  dispatch({
+    type: "SET_PLAYER",
+    player: new window.Spotify.Player({name: 'Muzik Player', getOAuthToken})
+  })
+}
+
+const initializePageState = (spotify, token, dispatch) => {
   const handleApiError = (response) => {
     if(response.status === 401) {
       localStorage.removeItem('$token')
@@ -16,81 +32,84 @@ const initializeAppState = (spotify, token, dispatch) => () => {
       })
     }
   }
-
   if(token) {
     localStorage.setItem('$token', token)
     window.history.replaceState({}, document.title, document.location.pathname)
   }
   const storedToken = localStorage.getItem('$token')
+  if(!storedToken) {
+    return
+  }
+
+  dispatch({
+    type: "SET_TOKEN",
+    token: storedToken
+  })
 
   if (!spotify) {
-    if(!storedToken) {
-      return
-    }
-    const newSpotify = new SpotifyWebApi()
-    newSpotify.setAccessToken(storedToken)
-    dispatch({
-      type: "SET_SPOTIFY",
-      spotify: newSpotify
-    })
     return;
   }
 
   spotify
     .getMe()
-    .catch(handleApiError)
     .then((user) => {
       dispatch({
         type: "SET_USER",
         user,
       })
     })
+    .catch(handleApiError)
 
   spotify
     .getMyTopTracks()
-    .catch(handleApiError)
     .then((response) => {
         dispatch({
             type: "SET_TOP_TRACKS",
             top_tracks: response.items
         })
     })
+    .catch(handleApiError)
 
   spotify
     .getMyTopArtists()
-    .catch(handleApiError)
     .then((response) => {
         dispatch({
            type: "SET_TOP_ARTISTS",
            top_artists: response.items
         })
     })
+    .catch(handleApiError)
   
   spotify
     .getUserPlaylists()
-    .catch(handleApiError)
     .then((playlists) => {
         dispatch({
           type: "SET_PLAYLISTS",
           playlists,
         })
     })
+    .catch(handleApiError)
 
   spotify
     .getMyRecentlyPlayedTracks()
-    .catch(handleApiError)
     .then((response) => {
+        const track_ids = response.items.map(item => item.track.uri)
+        const uniqueItems = response.items.filter((item, index) => track_ids.indexOf(item.track.uri) === index)
         dispatch({
            type: "SET_RECENT",
-           recent_items: response.items
+           recent_items: uniqueItems
         })
     })
+    .catch(handleApiError)
 }
 
 const Home = ({ location }) => {
   const token = new URLSearchParams(location.hash?.substring(1)).get('access_token')
   const [{ spotify }, dispatch] = useStateValue()
-  useEffect(initializeAppState(spotify, token, dispatch), [spotify])
+  useEffect(() => {
+    initPlayer(token, dispatch);
+    initializePageState(spotify, token, dispatch);
+  }, [spotify])
   
   return (
     <React.Fragment>
