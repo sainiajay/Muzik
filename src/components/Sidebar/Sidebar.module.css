@@ -1,0 +1,89 @@
+.SidebarContainer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.SidebarLogo {
+    margin-bottom: 15px;
+}
+
+.SidebarOption {        
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    color: grey;
+    border-radius: 5px;
+    height: 40px;
+    transition: 200ms color ease-in;
+}
+  
+.SidebarOption:hover {
+    color: white;
+}
+
+.SidebarOption[data-active="true"] {
+    color: #fff;
+    background: #272727;
+}
+
+.Sidebar > hr {
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    margin: 10px;
+}
+  
+.SidebarOptionIcon {
+    margin: 10px 15px;
+}
+  
+.SidebarOption > h4 {
+    font-size: 14px;
+    margin: 0;
+}
+
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    height: 100%;
+    background-color: #040404;
+    padding: 10px;
+}
+  
+.Title {
+    margin-left: 10px;
+    margin-top: 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+  
+.Logo {
+    margin-right: auto;
+    object-fit: contain;
+    height: 70px;
+}
+
+.AddIcon {
+    margin: 10px;
+    padding: 5px;
+    background: #fff;
+    color: #000;
+}
+
+.FavoriteIcon {
+    margin: 10px;
+    padding: 5px;
+    background: linear-gradient(135deg, blue, #fff);
+    color: #fff;
+}
+
+.Playlist {
+    color: grey;
+    margin: 10px;
+    font-size: 14px;
+}
+
+.Playlist:hover {
+    color: #fff;
+}
