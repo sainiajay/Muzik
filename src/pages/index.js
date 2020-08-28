@@ -27,7 +27,7 @@ const initializePageState = (spotify, token, dispatch) => {
     if(response.status === 401) {
       localStorage.removeItem('$token')
       dispatch({
-        type: "SET_SPOTIFY",
+        type: "SET_TOKEN",
         token: null
       })
     }
